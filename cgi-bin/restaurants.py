@@ -9,7 +9,7 @@ form = cgi.FieldStorage()
 
 db_connection = sqlite3.connect('cgi-bin/restaurants.db')
 db_cursor = db_connection.cursor()
-db_cursor.execute("SELECT NAME from restaurants WHERE NEIGHBORHOOD_ID = 1")
+db_cursor.execute("SELECT * from restaurants WHERE NEIGHBORHOOD_ID = 1")
 list_restaurants = db_cursor.fetchall()
 
 db_connection.close()
@@ -29,6 +29,11 @@ divSingle = """
 """
 
 divAll = ""
+
+i = 0
+while i < len(list_restaurants):
+  divAll = divAll + divSingle.format(list_restaurants[i][1], "Kreuzberg")
+  i = i + 1
 
 print("""
     <!DOCTYPE html>
