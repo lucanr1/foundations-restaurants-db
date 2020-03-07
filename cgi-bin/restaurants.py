@@ -1,35 +1,24 @@
 #!/usr/bin/env python3
 import cgi
 import os
+import sqlite3
 
 form = cgi.FieldStorage()
 
-class resClass:
-  def __init__(self, name, suburb):
-    self.name = name
-    self.suburb = suburb
-  #End Class
+#Database Stuff
 
-resList = []
+db_connection = sqlite3.connect('cgi-bin/restaurants.db')
+db_cursor = db_connection.cursor()
+db_cursor.execute("SELECT NAME from restaurants WHERE NEIGHBORHOOD_ID = 1")
+list_restaurants = db_cursor.fetchall()
 
-def txtToClass():
-  path = "cgi-bin/restaurants.txt"
-  resDoc = open(path, "r").readlines()
-  
-  for line in resDoc:
-      row = line.split(',')
-      name, suburb = [i.strip() for i in row]
-      res = resClass(name, suburb)
-      resList.append(res) 
+db_connection.close()
+print(list_restaurants)
 
-  #resDoc.close()
-
-txtToClass()
+#End Database Stuff
 
 resName = form.getvalue("restaurant")
 resSuburb = form.getvalue("suburb")
-
-resList.append(resClass(resName, resSuburb))
 
 divSingle = """
 <div class="resDiv">
@@ -40,11 +29,6 @@ divSingle = """
 """
 
 divAll = ""
-
-i = 0
-while i < len(resList):
-  divAll = divAll + divSingle.format(resList[i].name, resList[i].suburb)
-  i = i+1
 
 print("""
     <!DOCTYPE html>

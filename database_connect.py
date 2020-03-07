@@ -5,7 +5,7 @@
 import sqlite3
 
 # connect to the database file, and create a connection object
-db_connection = sqlite3.connect('/cgi-bin/restaurants.db')
+db_connection = sqlite3.connect('cgi-bin/restaurants.db')
 
 # create a database cursor object, which allows us to perform SQL on the database. 
 db_cursor = db_connection.cursor()
